@@ -72,10 +72,8 @@ Write-Host "Resources downloaded..."
 # - Set variables
 Write-Host "Configuring variables..."
 
-$clientPortValue = 3000
-$apiPortValue = 3001
-
 # Client port configuration
+$clientPort = 3000
 $questionClientPort = Read-Host "On which port do you want the client (easylogs-client) to be running? (default: 3000)"
 
 if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
@@ -101,6 +99,7 @@ else {
 }
 
 # Api port configuration
+$apiPort = 3001
 $questionApiPort = Read-Host "On which port do you want the api (easylogs-api) to be running? (default: 3001)"
 
 if ([string]::IsNullOrWhiteSpace($questionApiPort)) {
