@@ -72,27 +72,70 @@ Write-Host "Resources downloaded..."
 # - Set variables
 Write-Host "Configuring variables..."
 
+$clientPortValue = 3000
+$apiPortValue = 3001
+
 # Client port configuration
-$questionClientPort = Read-Host "On which port do you want the client (easylogs-client) to be running?"
+$questionClientPort = Read-Host "On which port do you want the client (easylogs-client) to be running? (default: 3000)"
+
+if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
+  Write-Host "No value set for easylogs-client port, using default value"
+  $questionClientPort = "3000"
+}
 
 $envClientContent = Get-Content $envClientPath
 $envClientContent = $envClientContent -replace $baseUrlVariableName, $questionClientPort
 $envClientContent | Set-Content $envClientPath
 
+if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
+  $clientPortValue = $clientPort
+
+  $envClientContent = Get-Content $envClientPath
+  $envClientContent = $envClientContent -replace $baseUrlVariableName, $clientPort
+  $envClientContent | Set-Content $envClientPath
+
+  Write-Host "easylogs-client port variable configured..."
+}
+else {
+  throw "easylogs-client port value, not is a number"
+}
+
 # Api port configuration
-$questionApiPort = Read-Host "On which port do you want the api (easylogs-api) to be running?"
+$questionApiPort = Read-Host "On which port do you want the api (easylogs-api) to be running? (default: 3001)"
 
-$launchApiPath = "./$apiDirectory/easylogsAPI.WebApi/Properties/launchSettings.json"
+if ([string]::IsNullOrWhiteSpace($questionApiPort)) {
+  Write-Host "No value set for easylogs-api port, using default value"
+  $questionApiPort = "3001"
+}
 
-$launchApiContent = Get-Content $launchApiPath
-$launchApiContent = $launchApiContent -replace $baseUrlVariableName, $questionApiPort
-$launchApiContent | Set-Content $launchApiPath
+if ([int]::TryParse($questionApiPort, [ref]$apiPort)) {
+  $apiPortValue = $apiPort
+
+  $launchApiPath = "./$apiDirectory/easylogsAPI.WebApi/Properties/launchSettings.json"
+
+  $launchApiContent = Get-Content $launchApiPath
+  $launchApiContent = $launchApiContent -replace $baseUrlVariableName, $apiPort
+  $launchApiContent | Set-Content $launchApiPath
+
+  Write-Host "easylogs-api port variable configured..."
+}
+else {
+  throw "easylogs-api port value, not is a number"
+}
 
 Write-Host "Variables configured..."
 
 # - Docker initialization
 Write-Host "Initializing docker..."
 
+$env:EASYLOGS_CONFIGURATION_CLIENT_PORT = $clientPortValue
+$env:EASYLOGS_CONFIGURATION_API_PORT = $apiPortValue
+
 docker compose up -d
 
 Write-Host "easylogs is installed correctly in your system..."
+
+Write-Host "After 10 seconds, this window will close automatically."
+Start-Sleep -Seconds 10
+
+Exit

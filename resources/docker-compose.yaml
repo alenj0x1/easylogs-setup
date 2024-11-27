@@ -16,7 +16,7 @@ services:
       context: ./easylogs-api
       dockerfile: Dockerfile
     ports:
-      - 3001:5000
+      - ${EASYLOGS_CONFIGURATION_API_PORT}:5000
     depends_on:
       - database
   client:
@@ -26,7 +26,7 @@ services:
       context: ./easylogs-client
       dockerfile: Dockerfile
     ports:
-      - 3000:4200
+      - ${EASYLOGS_CONFIGURATION_CLIENT_PORT}:4200
     depends_on:
       - api
       - database
