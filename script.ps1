@@ -123,8 +123,8 @@ Write-Host "Variables configured..."
 # - Docker initialization
 Write-Host "Initializing docker..."
 
-$env:EASYLOGS_CONFIGURATION_CLIENT_PORT = $clientPortValue
-$env:EASYLOGS_CONFIGURATION_API_PORT = $apiPortValue
+$env:EASYLOGS_CONFIGURATION_CLIENT_PORT = $clientPort
+$env:EASYLOGS_CONFIGURATION_API_PORT = $apiPort
 
 docker compose up -d
 
