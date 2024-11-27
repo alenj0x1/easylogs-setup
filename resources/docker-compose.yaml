@@ -19,7 +19,7 @@ services:
     environment:
       - EASYLOGS_CONFIGURATION_API_PORT=${EASYLOGS_CONFIGURATION_API_PORT}
     ports:
-      - ${EASYLOGS_CONFIGURATION_API_PORT}:5000
+      - ${EASYLOGS_CONFIGURATION_API_PORT}:8080
     depends_on:
       - database
     restart: always
@@ -32,7 +32,7 @@ services:
     environment:
       - EASYLOGS_CONFIGURATION_CLIENT_PORT=${EASYLOGS_CONFIGURATION_CLIENT_PORT}
     ports:
-      - ${EASYLOGS_CONFIGURATION_CLIENT_PORT}:4200
+      - ${EASYLOGS_CONFIGURATION_CLIENT_PORT}:3000
     depends_on:
       - api
       - database
