@@ -100,7 +100,7 @@ if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
 $clientPort = "3000"
 if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
   $envClientContent = Get-Content $envClientPath
-  $envClientContent = $envClientContent -replace $baseApiUrlVariable, "http://localhost:$apiPort/api"
+  $envClientContent = $envClientContent -replace $baseApiUrlVariable, "http://localhost:$apiPort/api/v1"
   $envClientContent | Set-Content $envClientPath
 
   Write-Host "easylogs-client port variable configured..."
@@ -112,7 +112,7 @@ else {
 $appSettingsPath = "./$apiDirectory/easylogsAPI.WebApi/appsettings.json"
 $appsettingsContent = Get-Content $appSettingsPath
 $appsettingsContent = $appsettingsContent -replace $baseClientUrlVariable, "http://localhost:$clientPort"
-$appsettingsContent = $appsettingsContent -replace $baseApiUrlVariable, "http://localhost:$apiPort/api"
+$appsettingsContent = $appsettingsContent -replace $baseApiUrlVariable, "http://localhost:$apiPort/api/v1"
 $appsettingsContent | Set-Content $appSettingsPath
 
 Write-Host "Variables configured..."
