@@ -72,30 +72,6 @@ Write-Host "Resources downloaded..."
 # - Set variables
 Write-Host "Configuring variables..."
 
-# Client port configuration
-$questionClientPort = Read-Host "On which port do you want the client (easylogs-client) to be running? (default: 3000)"
-
-if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
-  Write-Host "No value set for easylogs-client port, using default value"
-  $questionClientPort = "3000"
-}
-
-$envClientContent = Get-Content $envClientPath
-$envClientContent = $envClientContent -replace $baseUrlVariableName, $questionClientPort
-$envClientContent | Set-Content $envClientPath
-
-$clientPort = "3000"
-if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
-  $envClientContent = Get-Content $envClientPath
-  $envClientContent = $envClientContent -replace $baseUrlVariableName, $clientPort
-  $envClientContent | Set-Content $envClientPath
-
-  Write-Host "easylogs-client port variable configured..."
-}
-else {
-  throw "easylogs-client port value, not is a number"
-}
-
 # Api port configuration
 $questionApiPort = Read-Host "On which port do you want the api (easylogs-api) to be running? (default: 3001)"
 
@@ -116,6 +92,30 @@ if ([int]::TryParse($questionApiPort, [ref]$apiPort)) {
 }
 else {
   throw "easylogs-api port value, not is a number"
+}
+
+# Client port configuration
+$questionClientPort = Read-Host "On which port do you want the client (easylogs-client) to be running? (default: 3000)"
+
+if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
+  Write-Host "No value set for easylogs-client port, using default value"
+  $questionClientPort = "3000"
+}
+
+$envClientContent = Get-Content $envClientPath
+$envClientContent = $envClientContent -replace $baseUrlVariableName, $questionClientPort
+$envClientContent | Set-Content $envClientPath
+
+$clientPort = "3000"
+if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
+  $envClientContent = Get-Content $envClientPath
+  $envClientContent = $envClientContent -replace $baseUrlVariableName, "http://localhost:$apiPort/api"
+  $envClientContent | Set-Content $envClientPath
+
+  Write-Host "easylogs-client port variable configured..."
+}
+else {
+  throw "easylogs-client port value, not is a number"
 }
 
 Write-Host "Variables configured..."
