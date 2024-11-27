@@ -2,7 +2,7 @@ Write-Host "easy-logs Setup"
 
 $clientRepository = "https://github.com/alenj0x1/easylogs-client.git"
 $apiRepository = "https://github.com/alenj0x1/easylogs-api.git"
-$resourceDockerComposeRaw = ""
+$resourceDockerComposeRaw = "https://raw.githubusercontent.com/alenj0x1/easylogs-setup/refs/heads/main/resources/docker-compose.yaml"
 
 $installationDirectory = "easylogs";
 
