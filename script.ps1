@@ -34,7 +34,7 @@ Write-Host "Location changed to $installationDirectory"
 $questionRepositories = Read-Host "You need to download some repositories to run the installation, do you want to continue?. y/n"
 
 if ($questionRepositories -ne "y") {
-  Write-Hos "Installation cancelled."
+  Write-Host "Installation cancelled."
 }
 
 if (-Not (Test-Path -Path "easylogs-client")) {
@@ -51,11 +51,14 @@ if (-Not (Test-Path -Path "easylogs-api")) {
 $questionResources = Read-Host "You need to download some resources to run the installation, do you want to continue?. y/n"
 
 if ($questionResources -ne "y") {
-  Write-Hos "Installation cancelled."
+  Write-Host "Installation cancelled."
 }
 
 Write-Host "Downloading resources..."
-Invoke-WebRequest -Uri $resourceDockerComposeRaw -OutFile $installationDirectory
+
+$dockerComposeName = "docker-compose.yml"
+Invoke-WebRequest -Uri $resourceDockerComposeRaw -OutFile $dockerComposeName
+
 Write-Host "Resources downloaded..."
 
 # - Docker initialization
