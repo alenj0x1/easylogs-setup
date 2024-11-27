@@ -1,0 +1,32 @@
+services:
+  database:
+    container_name: database
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=easylogs
+      - POSTGRES_DB=easylogs
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./easylogs-api/utils/scripts:/docker-entrypoint-initdb.d
+  api:
+    container_name: easylogs-api
+    image: easylogs-api
+    build:
+      context: ./easylogs-api
+      dockerfile: Dockerfile
+    ports:
+      - 3001:5000
+    depends_on:
+      - database
+  client:
+    container_name: easylogs-client
+    image: easylogs-client
+    build: 
+      context: ./easylogs-client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:4200
+    depends_on:
+      - api
+      - database
