@@ -73,7 +73,6 @@ Write-Host "Resources downloaded..."
 Write-Host "Configuring variables..."
 
 # Client port configuration
-$clientPort = 3000
 $questionClientPort = Read-Host "On which port do you want the client (easylogs-client) to be running? (default: 3000)"
 
 if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
@@ -85,9 +84,8 @@ $envClientContent = Get-Content $envClientPath
 $envClientContent = $envClientContent -replace $baseUrlVariableName, $questionClientPort
 $envClientContent | Set-Content $envClientPath
 
+$clientPort = "3000"
 if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
-  $clientPortValue = $clientPort
-
   $envClientContent = Get-Content $envClientPath
   $envClientContent = $envClientContent -replace $baseUrlVariableName, $clientPort
   $envClientContent | Set-Content $envClientPath
@@ -99,7 +97,6 @@ else {
 }
 
 # Api port configuration
-$apiPort = 3001
 $questionApiPort = Read-Host "On which port do you want the api (easylogs-api) to be running? (default: 3001)"
 
 if ([string]::IsNullOrWhiteSpace($questionApiPort)) {
@@ -107,9 +104,8 @@ if ([string]::IsNullOrWhiteSpace($questionApiPort)) {
   $questionApiPort = "3001"
 }
 
+$apiPort = "3001"
 if ([int]::TryParse($questionApiPort, [ref]$apiPort)) {
-  $apiPortValue = $apiPort
-
   $launchApiPath = "./$apiDirectory/easylogsAPI.WebApi/Properties/launchSettings.json"
 
   $launchApiContent = Get-Content $launchApiPath
