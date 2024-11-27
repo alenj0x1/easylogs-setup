@@ -116,7 +116,7 @@ Write-Host "Initializing docker..."
 $env:EASYLOGS_CONFIGURATION_CLIENT_PORT = $clientPort
 $env:EASYLOGS_CONFIGURATION_API_PORT = $apiPort
 
-docker compose up -d
+docker compose up --build -d
 
 Write-Host "easylogs is installed correctly in your system..."
 
