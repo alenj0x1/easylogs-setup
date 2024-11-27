@@ -9,7 +9,8 @@ $installationDirectory = "easylogs";
 $clientDirectory = "easylogs-client"
 $apiDirectory = "easylogs-api"
 
-$baseUrlVariableName = "{{_BASE_URL_VARIABLE_}}"
+$baseApiUrlVariable = "{{_BASE_API_URL_}}"
+$baseClientUrlVariable = "{{_BASE_CLIENT_URL_}}"
 
 # Check necessary resources on system
 try {
@@ -99,7 +100,7 @@ if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
 $clientPort = "3000"
 if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
   $envClientContent = Get-Content $envClientPath
-  $envClientContent = $envClientContent -replace $baseUrlVariableName, "http://localhost:$apiPort/api"
+  $envClientContent = $envClientContent -replace $baseApiUrlVariable, "http://localhost:$apiPort/api"
   $envClientContent | Set-Content $envClientPath
 
   Write-Host "easylogs-client port variable configured..."
@@ -107,6 +108,12 @@ if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
 else {
   throw "easylogs-client port value, not is a number"
 }
+
+$appSettingsPath = "./$apiDirectory/easylogsAPI.WebApi/appsettings.json"
+$appsettingsContent = Get-Content $appSettingsPath
+$appsettingsContent = $appsettingsContent -replace $baseClientUrlVariable, "http://localhost:$clientPort"
+$appsettingsContent = $appsettingsContent -replace $baseApiUrlVariable, "http://localhost:$apiPort/api"
+$appsettingsContent | Set-Content $appSettingsPath
 
 Write-Host "Variables configured..."
 
