@@ -82,12 +82,6 @@ if ([string]::IsNullOrWhiteSpace($questionApiPort)) {
 
 $apiPort = "3001"
 if ([int]::TryParse($questionApiPort, [ref]$apiPort)) {
-  $launchApiPath = "./$apiDirectory/easylogsAPI.WebApi/Properties/launchSettings.json"
-
-  $launchApiContent = Get-Content $launchApiPath
-  $launchApiContent = $launchApiContent -replace $baseUrlVariableName, $apiPort
-  $launchApiContent | Set-Content $launchApiPath
-
   Write-Host "easylogs-api port variable configured..."
 }
 else {
@@ -101,10 +95,6 @@ if ([string]::IsNullOrWhiteSpace($questionClientPort)) {
   Write-Host "No value set for easylogs-client port, using default value"
   $questionClientPort = "3000"
 }
-
-$envClientContent = Get-Content $envClientPath
-$envClientContent = $envClientContent -replace $baseUrlVariableName, $questionClientPort
-$envClientContent | Set-Content $envClientPath
 
 $clientPort = "3000"
 if ([int]::TryParse($questionClientPort, [ref]$clientPort)) {
