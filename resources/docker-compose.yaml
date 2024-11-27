@@ -15,6 +15,8 @@ services:
     build:
       context: ./easylogs-api
       dockerfile: Dockerfile
+    environment:
+      - EASYLOGS_CONFIGURATION_API_PORT=${EASYLOGS_CONFIGURATION_API_PORT}
     ports:
       - ${EASYLOGS_CONFIGURATION_API_PORT}:5000
     depends_on:
@@ -25,6 +27,8 @@ services:
     build: 
       context: ./easylogs-client
       dockerfile: Dockerfile
+    environment:
+      - EASYLOGS_CONFIGURATION_CLIENT_PORT=${EASYLOGS_CONFIGURATION_CLIENT_PORT}
     ports:
       - ${EASYLOGS_CONFIGURATION_CLIENT_PORT}:4200
     depends_on:
