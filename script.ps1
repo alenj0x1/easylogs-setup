@@ -47,10 +47,18 @@ if (-Not (Test-Path -Path "easylogs-client")) {
   git clone $clientRepository
   Write-Host "easylogs-client repository cloned..."
 }
+else {
+  git pull $clientRepository
+  Write-Host "easylogs-client repository updated"
+}
 
 if (-Not (Test-Path -Path "easylogs-api")) {
   git clone $apiRepository
   Write-Host "easylogs-api repository cloned..."
+}
+else {
+  git pull $apiRepository
+  Write-Host "easylogs-api repository updated"
 }
 
 # - Get resources
